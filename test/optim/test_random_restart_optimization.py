@@ -24,8 +24,9 @@ class TestRandomRestartOptimization(TestBaseCandidateGeneration):
             )
             candidates = get_best_candidates(
                 batch_candidates=batch_candidates, batch_values=batch_acq_values
-            )
-            self.assertTrue(0 <= candidates <= 1)
+            )            
+            self.assertTrue(0 <= candidates)
+            self.assertTrue(candidates <= 1)
 
     def test_random_restart_optimization_cuda(self):
         if torch.cuda.is_available():
