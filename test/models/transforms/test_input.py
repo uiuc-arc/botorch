@@ -6,7 +6,7 @@
 
 import itertools
 from copy import deepcopy
-
+import numpy as np
 import torch
 from botorch.exceptions.errors import BotorchTensorDimensionError
 from botorch.models.transforms.input import (
@@ -76,7 +76,8 @@ class TestInputTransforms(BotorchTestCase):
                 self.assertEqual(X_nlzd.max().item(), 1.0)
                 nlz.eval()
                 X_unnlzd = nlz.untransform(X_nlzd)
-                self.assertTrue(torch.allclose(X, X_unnlzd))
+                np.testing.assert_allclose(X, X_unnlzd, rtol=1e-5, atol=1e-8)
+                #self.assertTrue(torch.allclose(X, X_unnlzd))
                 expected_bounds = torch.cat(
                     [X.min(dim=-2, keepdim=True)[0], X.max(dim=-2, keepdim=True)[0]],
                     dim=-2,
